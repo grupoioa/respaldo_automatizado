@@ -91,7 +91,7 @@ Estas son las bases de datos que vamos a respaldar que se encuentran en ```home/
   * pumabus
   * viajandodf
  
- ## Lista de archivos a omotir
+ ## Lista de archivos a omitir
  
  Estas carpetas contienen los archivos que no deseamos respaldar:
  
