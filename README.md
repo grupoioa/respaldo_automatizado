@@ -160,7 +160,7 @@ Para ejecutar el script se tiene que hacer lo siguiente desde una línea de coma
   en el cron de un usuario del servidor).
   Este es un ejemplo de como se respalda la base de datos *contingencia* en el archivo `sh` :  
     
-     ` pg_dump -v -h localhost -d contingencia -f  /$PATH/BasesDatos/contingencia.sql `  
+      pg_dump -v -h localhost -d contingencia -f  /$PATH/BasesDatos/contingencia.sql 
      
 ## Construido con
 * [Bash][1] Lenguaje de programación
@@ -173,7 +173,7 @@ Usamos [SemVer][3] para versionar. Para las versiones disponibles, consulte [las
 * **Raúl Medina Peña** - [Github][5]
 
 ## Licencia
-Este proyecto está licenciado bajo la licencia MIT; consulte el archivo [LICENS.md](LICENSE.md) para obtener detalles.
+Este proyecto está licenciado bajo la licencia MIT; consulte el archivo [LICENSE](LICENSE) para obtener detalles.
 
 ## Agradecimientos  
 * Agradecemos a [Olmo Zavala][6] por su colaboración y todo su apoyo en este proyecto.
