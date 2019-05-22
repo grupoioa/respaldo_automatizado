@@ -110,7 +110,7 @@ Estas son las bases de datos que vamos a respaldar que se encuentran en ```home/
 
 ## Probando
 Para ejecutar el script se tiene que hacer lo siguiente desde una línea de comando:  
-   `:~$ bash respaldo_auto.sh`  
+   `user@:~$ bash respaldo_auto.sh`  
 
  #### Descripción del script `` respaldo_auto.sh ``
  Este script en bash realiza los respaldos de la información que se necesita. 
@@ -142,26 +142,23 @@ Para ejecutar el script se tiene que hacer lo siguiente desde una línea de coma
  * Respaldamos los archivos *backup* de las bases de datos.  
 
  ```
- rsync -avtbr --delete-excluded --filter='protect <carpeta_respaldo>*' <alias_servidor>:/$PATH/respaldos/BasesDatos  
- /$PATH_HOME/<carpeta_respaldo>
+ rsync -avtbr --delete-excluded --filter='protect <carpeta_respaldo>*' <alias_servidor>:/$PATH/respaldos/BasesDatos /$PATH_HOME/<carpeta_respaldo>
  ```
  
  * Respaldamos los archivos del servidor ncWMS 
  ```
- rsync -avtbr --delete-excluded --min-size=100k --filter='protect respaldo_*' 
- <alias_servidor>:/$PATH/owgisconfig/ncwms/config.xml  /$PATH_HOME/<carpeta_respaldo>/<carpeta_owgis_config>
+ rsync -avtbr --delete-excluded --min-size=100k --filter='protect respaldo_*' <alias_servidor>:/$PATH/owgisconfig/ncwms/config.xml  /$PATH_HOME/<carpeta_respaldo>/<carpeta_owgis_config>
  ```
  
  * Respaldamos las paletas de colores
  ```
- rsync -avtbr --delete-excluded --filter='protect respaldo_*' <alias_servidor>:/$PATH/owgisconfig/ncwms/palettes  
- /$PATH_HOME/<carpeta_respaldo>/<carpeta_owgis_config>
+ rsync -avtbr --delete-excluded --filter='protect respaldo_*' <alias_servidor>:/$PATH/owgisconfig/ncwms/palettes /$PATH_HOME/<carpeta_respaldo>/<carpeta_owgis_config>
  ```
  
  #### Descripción del script ``respaldo_BD.sh``
   Este script genera los archivos _backup_ de las bases de datos que se quieren respaldar (Nota: este script debe de estar  
   en el cron de un usuario del servidor).
-  Este es un ejemplo de como se respalda la base de datos *contingencia* en el archivo `sh`` :  
+  Este es un ejemplo de como se respalda la base de datos *contingencia* en el archivo `sh` :  
   
      ``pg_dump -v -h localhost -d contingencia -f  /$PATH/BasesDatos/contingencia.sql``
 
@@ -187,18 +184,3 @@ Este proyecto está licenciado bajo la licencia MIT; consulte el archivo [LICENS
 [4]: https://github.com/grupoioa/respaldo_automatizado/tags
 [5]: https://github.com/rmedina09
 [6]: https://github.com/olmozavala
-
-
-### Descripción
-
-  * Script en bash que realiza los respaldos de la información `` respaldo_auto.sh ``
-  * Script que genera los archivos _backup_ de las bases de datos `` respaldo_BD.sh ``  
-    (Nota: este script debe de estar en el cron de un usuario del servidor)  
-    
-  * Archivo ``.txt`` que contiene las rutas absolutas de las carpetas en el servidor que se quiere respaldar        
-    ``archivos_a_respaldar.txt``  
-  
-  * Archivo ``.txt`` que contiene las rutas absolutas de las carpetas en el servidor que NO se quiere respaldar
-    ``archivos_a_omitir.txt``  
-    
-  
