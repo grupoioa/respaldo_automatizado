@@ -159,7 +159,7 @@ Para ejecutar el script se tiene que hacer lo siguiente desde una línea de coma
   Este script genera los archivos _backup_ de las bases de datos que se quieren respaldar (Nota: este script debe de estar  
   en el cron de un usuario del servidor).
   Este es un ejemplo de como se respalda la base de datos *contingencia* en el archivo `sh` :  
-  
+    
      `` pg_dump -v -h localhost -d contingencia -f  /$PATH/BasesDatos/contingencia.sql ``
 
 ## Construido con
