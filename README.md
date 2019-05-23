@@ -13,6 +13,7 @@ Y se tienen que sustituir las variables *$PATH* y *$PATH_HOME* tanto del archivo
 
    * PATH_TXT : es la ruta en donde se encuentran nuestros archivos *archivos_a_respaldar.txt* y *archivos_a_omitir.txt*.  
    * PATH_REMOTE : es la ruta en nuestro servidor remoto de donde obtendremos la información.  
+   * PATH_REMOTE_BD : es la ruta en nuestro servidor remoto de donde obtendremos los *backup* de las bases de datos.
    * PATH_BACKUP: es la ruta de nuestro equipo o servidor en donde se guardara el respaldo de nuestra información.  
    
 ### Requerimientos Técnicos
