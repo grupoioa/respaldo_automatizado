@@ -11,7 +11,8 @@ Para obtener una copia del proyecto basta con hacer lo siguiente :
 Y se tienen que sustituir las variables *$PATH* y *$PATH_HOME* tanto del archivo `respaldo_auto.sh` como del archivo  
 `respaldo_BD.sh` donde :  
 
-   * PATH_SCRIPTS : es la ruta en donde se encuentran nuestros archivos *archivos_a_respaldar.txt* y *archivos_a_omitir.txt*   
+   * PATH_SCRIPTS : es la ruta en donde se encuentran nuestros archivos *archivos_a_respaldar.txt* y  
+                  *archivos_a_omitir.txt*   
    * PATH_REMOTE : es la ruta en nuestro servidor remoto de donde obtendremos la información.  
    * PATH_BACKUP: es la ruta de nuestro equipo o servidor en donde se guardara el respaldo de nuestra información.  
    
