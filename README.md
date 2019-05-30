@@ -8,12 +8,12 @@ Para obtener una copia del proyecto basta con hacer lo siguiente :
    
    `git clone https://github.com/grupoioa/respaldo_automatizado.git`  
 
-Y se tienen que sustituir las variables *$PATH* y *$PATH_HOME* tanto del archivo `respaldo_auto.sh` como del archivo  
-`respaldo_BD.sh` donde :  
+Y se tienen que sustituir las variables *$PATH_TXT*, *$PATH_REMOTE_DB*, *$PATH_NCMWS* y *$PATH_BACKUP* tanto del archivo  
+`respaldo_auto.sh` como del archivo `respaldo_BD.sh` donde :  
 
    * PATH_TXT : es la ruta en donde se encuentran nuestros archivos *archivos_a_respaldar.txt* y *archivos_a_omitir.txt*.  
-   * PATH_REMOTE : es la ruta en nuestro servidor remoto de donde obtendremos la información.  
-   * PATH_REMOTE_BD : es la ruta en nuestro servidor remoto de donde obtendremos los *backup* de las bases de datos.
+   * PATH_REMOTE_DB : es la ruta en nuestro servidor remoto de donde obtendremos los *backup* de las bases de datos.  
+   * PATH_NCMWS : es la ruta en nuestro servidor remoto de donde obtendremos los archivos de configuración del NCWMS.  
    * PATH_BACKUP: es la ruta de nuestro equipo o servidor en donde se guardara el respaldo de nuestra información.  
    
 ### Requerimientos Técnicos
