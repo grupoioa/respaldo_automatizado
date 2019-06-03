@@ -8,12 +8,11 @@ Para obtener una copia del proyecto basta con hacer lo siguiente :
    
    `git clone https://github.com/grupoioa/respaldo_automatizado.git`  
 
-Y se tienen que sustituir las variables *$PATH_TXT*, *$PATH_REMOTE_DB*, *$PATH_NCMWS* y *$PATH_BACKUP* tanto del archivo  
+Y se tienen que sustituir las variables *$PATH_TXT*, y *$PATH_BACKUP* tanto del archivo  
 `respaldo_auto.sh` como del archivo `respaldo_BD.sh` donde :  
 
-   * PATH_TXT : es la ruta en donde se encuentran nuestros archivos *archivos_a_respaldar.txt* y *archivos_a_omitir.txt*.  
-   * PATH_REMOTE_DB : es la ruta en nuestro servidor remoto de donde obtendremos los *backup* de las bases de datos.  
-   * PATH_NCMWS : es la ruta en nuestro servidor remoto de donde obtendremos los archivos de configuración del NCWMS.  
+   * PATH_TXT : es la ruta en donde se encuentran nuestros archivos *respaldo_auto.sh*, *archivos_a_respaldar.txt* y  
+     *archivos_a_omitir.txt*.  
    * PATH_BACKUP: es la ruta de nuestro equipo o servidor en donde se guardara el respaldo de nuestra información.  
    
 ### Requerimientos Técnicos
@@ -29,10 +28,10 @@ __Creamos un alias del servidor remoto__
 
    1. Ingresamos al archivo `.ssh/config` para crear el alias de nuestro servidor  
       ```bash
-      Host <servidor>
-      HostName 132.248.xxx.xxx  
-      User user  
-      Port xxxx  
+      Host OWGIS_server
+      HostName 132.248.8.238  
+      User my_user  
+      Port 5543  
       ```  
    2. Creamos nuestras credenciales para poder ingresar al servidor sin la necesidad de autenticarnos explicitamente,  
       generando una llave privada ```id_rsa``` y una llave publica ```id_rsa.pub``` de la siguiente manera :  
@@ -48,10 +47,10 @@ __Configuracion de nuestro manejador de base de datos__
 Para poder generar los respaldos de las bases de datos en necesario que nuestro usuario tenga los permisos necesarios.  
   
   * En caso de no tener un usuario , hay que crearlo con los permisos necesarios
-  ```CREATE ROLE <user> WITH LOGIN SUPERUSER CREATEROLE CREATEDB PASSWORD '<password>' VALID UNTIL 'infinity';  ```
+  ```CREATE ROLE my_user_db WITH LOGIN SUPERUSER CREATEROLE CREATEDB PASSWORD 'my_pwd' VALID UNTIL 'infinity';  ```
   
   * Si el usuario no tiene los permisos entonces hay que asignarselos
-  ```ALTER ROLE borrar WITH LOGIN SUPERUSER CREATEROLE CREATEDB VALID UNTIL 'infinity'; ```  
+  ```ALTER ROLE my_user_db WITH LOGIN SUPERUSER CREATEROLE CREATEDB VALID UNTIL 'infinity'; ```  
   
 __Crear un cronjob que genere los archivos de respaldos .sql__
 
@@ -61,8 +60,8 @@ Enonces en un archivo ```.sh``` ponemos lo siguiente:
 
   ``` 
       #!/bin/sh 
-      pg_dump -v -h <host> -d <base_datos_1> -f /$PATH/respaldos/BasesDatos/<base_datos_backup_1.sql>
-      pg_dump -v -h <host> -d <base_datos_2> -f /$PATH/respaldos/BasesDatos/<base_datos_backup_2.sql>
+      pg_dump -v -h my_host -d data_base_1 -f /$PATH/respaldos/BasesDatos/data_base_backup_1.sql
+      pg_dump -v -h my_host -d data_base_2 -f /$PATH/respaldos/BasesDatos/data_base_backup_2.sql
       .
       .
       .
@@ -77,6 +76,7 @@ A continuación listamos una serie de carpetas que contienen los archivos que ne
   * var/www/html
   * ServerScripts
   * ServerData/OWGIS/Atlas
+  * ServerData/OutTempRaul
   * ServerData/ncWMS_Layers
   * ServerData/DataFestData
   * ServerData/GeoserverCenapredLayers
@@ -121,9 +121,9 @@ Para ejecutar el script se tiene que hacer lo siguiente desde una línea de coma
    de archivos que se encuantran en el archivo de texto ``archivos_a_omitir.txt``.
  
  ```
- rsync -avtbr -e 'ssh' --rsync-path='sudo rsync' --files-from='/$PATH/archivos_a_respaldar.txt'  
-       --exclude-from='/$PATH/archivos_a_omitir.txt' --delete-excluded --filter='protect <carpeta_respaldo>*'  
-       <alias_servidor>:/  /$PATH_HOME/<carpeta_respaldo>
+ rsync -avtbr -e 'ssh' --rsync-path='sudo rsync' --files-from='/$PATH_TXT/archivos_a_respaldar.txt'  
+       --exclude-from='/$PATH_TXT/archivos_a_omitir.txt' --delete-excluded --filter='protect my_folder_backup*'  
+       OWGIS_server:/  /$PATH_BACKUP/my_folder_backup
  ```
  Este es un ejemplo de como podría ser el archivo ``archivos_a_respaldar.txt`` en donde se respaldan todas las subcarpetas  
  y archivos contenidos en la carpeta *ServerScripts* y en la carpeta */html* :  
@@ -144,17 +144,17 @@ Para ejecutar el script se tiene que hacer lo siguiente desde una línea de coma
  * Respaldamos los archivos *backup* de las bases de datos.  
 
  ```
- rsync -avtbr --delete-excluded --filter='protect <carpeta_respaldo>*' <alias_servidor>:/$PATH/respaldos/BasesDatos /$PATH_HOME/<carpeta_respaldo>
+ rsync -avtbr --delete-excluded --filter='protect my_folder_backup*' OWGIS_server:/$PATH_REMOTE_DB /$PATH_BACKUP/my_folder_backup
  ```
  
  * Respaldamos los archivos del servidor ncWMS 
  ```
- rsync -avtbr --delete-excluded --min-size=100k --filter='protect respaldo_*' <alias_servidor>:/$PATH/owgisconfig/ncwms/config.xml  /$PATH_HOME/<carpeta_respaldo>/<carpeta_owgis_config>
+ rsync -avtbr --delete-excluded --min-size=100k --filter='protect my_folder_backup*' OWGIS_server:/$PATH_NCWMS/config.xml  /$PATH_BACKUP/my_folder_backup/my_folder_owgis_config
  ```
  
  * Respaldamos las paletas de colores
  ```
- rsync -avtbr --delete-excluded --filter='protect respaldo_*' <alias_servidor>:/$PATH/owgisconfig/ncwms/palettes /$PATH_HOME/<carpeta_respaldo>/<carpeta_owgis_config>
+ rsync -avtbr --delete-excluded --filter='protect respaldo_*' OWGIS_server:/$PATH_NCWMS/palettes /$PATH_BACKUP/my_folder_backup/my_folder_owgis_config
  ```
  
  #### Descripción del script ``respaldo_BD.sh``
