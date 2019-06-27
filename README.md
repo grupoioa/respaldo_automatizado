@@ -46,10 +46,10 @@ __Configuracion de nuestro manejador de base de datos__
 
 Para poder generar los respaldos de las bases de datos en necesario que nuestro usuario tenga los permisos necesarios.  
   
-  * En caso de no tener un usuario , hay que crearlo con los permisos necesarios
+  * En caso de no tener un usuario , hay que crearlo con los permisos necesarios  
   ```CREATE ROLE my_user_db WITH LOGIN SUPERUSER CREATEROLE CREATEDB PASSWORD 'my_pwd' VALID UNTIL 'infinity';  ```
   
-  * Si el usuario no tiene los permisos entonces hay que asignarselos
+  * Si el usuario no tiene los permisos entonces hay que asignarselos  
   ```ALTER ROLE my_user_db WITH LOGIN SUPERUSER CREATEROLE CREATEDB VALID UNTIL 'infinity'; ```  
   
 __Crear un cronjob que genere los archivos de respaldos .sql__
