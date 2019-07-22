@@ -8,8 +8,8 @@ Para obtener una copia del proyecto basta con hacer lo siguiente :
    
    `git clone https://github.com/grupoioa/respaldo_automatizado.git`  
 
-Y se tienen que sustituir las variables *$PATH_TXT*, y *$PATH_BACKUP* tanto del archivo  
-`respaldo_auto.sh` como del archivo `respaldo_BD.sh` donde :  
+Y se tienen que sustituir las variables *PATH_TXT*, y *PATH_BACKUP* tanto del archivo `respaldo_auto.sh` como del archivo  
+`respaldo_BD.sh` donde :  
 
    * PATH_TXT : es la ruta en donde se encuentran nuestros archivos *respaldo_auto.sh*, *archivos_a_respaldar.txt* y  
      *archivos_a_omitir.txt*.  
@@ -47,9 +47,11 @@ __Configuracion de nuestro manejador de base de datos__
 Para poder generar los respaldos de las bases de datos en necesario que nuestro usuario tenga los permisos necesarios.  
   
   * En caso de no tener un usuario , hay que crearlo con los permisos necesarios  
+  
   ```CREATE ROLE my_user_db WITH LOGIN SUPERUSER CREATEROLE CREATEDB PASSWORD 'my_pwd' VALID UNTIL 'infinity';  ```
   
   * Si el usuario no tiene los permisos entonces hay que asignarselos  
+  
   ```ALTER ROLE my_user_db WITH LOGIN SUPERUSER CREATEROLE CREATEDB VALID UNTIL 'infinity'; ```  
   
 __Crear un cronjob que genere los archivos de respaldos .sql__
@@ -109,7 +111,7 @@ Estas son las bases de datos que vamos a respaldar que se encuentran en ```home/
  Estas carpetas contienen los archivos que no deseamos respaldar:
  
   * ServerScripts/LYDAR/images
-
+  
 ## Probando
 Para ejecutar el script se tiene que hacer lo siguiente desde una línea de comando:  
    `user@:~$ bash respaldo_auto.sh`  
@@ -155,6 +157,18 @@ Para ejecutar el script se tiene que hacer lo siguiente desde una línea de coma
  * Respaldamos las paletas de colores
  ```
  rsync -avtbr --delete-excluded --filter='protect respaldo_*' OWGIS_server:/$PATH_NCWMS/palettes /$PATH_BACKUP/my_folder_backup/my_folder_owgis_config
+ ```
+ __Opcional__
+ En nuestro caso particular se generan dos copias *config.xml.ayer* y *config.xml.antier* del archivo de configuración del  
+ servidor NCWMS  *config.xml*. Para generar estos archivos se hace con el script [configBackup.sh](ncWMS_Config_Backup/configBackup.sh) y para que que estos  
+ archivos se respalden se haría agregando las siguientes lineas al script.
+ 
+ ```
+ rsync -avtbr --delete-excluded --min-size=100k --filter='protect my_folder_backup*' OWGIS_server:/$PATH_NCWMS/config.xml.antier  /$PATH_BACKUP/my_folder_backup/my_folder_owgis_config
+ ```
+ 
+ ```
+ rsync -avtbr --delete-excluded --min-size=100k --filter='protect my_folder_backup*' OWGIS_server:/$PATH_NCWMS/config.xml.ayer  /$PATH_BACKUP/my_folder_backup/my_folder_owgis_config
  ```
  
  #### Descripción del script ``respaldo_BD.sh``
