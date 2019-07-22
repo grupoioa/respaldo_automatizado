@@ -8,7 +8,7 @@ Para obtener una copia del proyecto basta con hacer lo siguiente :
    
    `git clone https://github.com/grupoioa/respaldo_automatizado.git`  
 
-Y se tienen que sustituir las variables *PATH_TXT*, y *PATH_BACKUP* tanto del archivo `respaldo_auto.sh` como del archivo  
+Y se tienen que sustituir las variables *PATH_TXT* y *PATH_BACKUP* tanto del archivo `respaldo_auto.sh` como del archivo  
 `respaldo_BD.sh` donde :  
 
    * PATH_TXT : es la ruta en donde se encuentran nuestros archivos *respaldo_auto.sh*, *archivos_a_respaldar.txt* y  
@@ -158,7 +158,8 @@ Para ejecutar el script se tiene que hacer lo siguiente desde una línea de coma
  ```
  rsync -avtbr --delete-excluded --filter='protect respaldo_*' OWGIS_server:/$PATH_NCWMS/palettes /$PATH_BACKUP/my_folder_backup/my_folder_owgis_config
  ```
- __Opcional__
+ #### Opcional ####
+ 
  En nuestro caso particular se generan dos copias *config.xml.ayer* y *config.xml.antier* del archivo de configuración del  
  servidor NCWMS  *config.xml*. Para generar estos archivos se hace con el script [configBackup.sh](ncWMS_Config_Backup/configBackup.sh) y para que que estos  
  archivos se respalden se haría agregando las siguientes lineas al script.
